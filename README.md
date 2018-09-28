@@ -26,7 +26,7 @@ Send personalised mails from your domain-email to n-number of people from your t
 
   * Enter the location of the ```.csv``` file and configure the ```line``` and ```row``` as per your needs.
 
-  * Run ```python smtp_mailer.py``` or ```python3 download.py <Lecture Link>``` in case you have more than one versions of python installed on your system.  
+  * Run ```python smtp_mailer.py``` or ```python3 smtp_mailer.py``` in case you have more than one versions of python installed on your system.  
   
   * Voila! Mails must have triggered by now.
   
