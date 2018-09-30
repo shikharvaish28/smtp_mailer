@@ -1,6 +1,6 @@
 [all]
 bears = LineCountBear, InvalidLinkBear, coalaBear
-files = **.yml, **.md, **.py
+files = **.md, **.py
 max_lines_per_file = 200
 
 [all.python]

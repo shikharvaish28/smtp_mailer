@@ -1,41 +1,47 @@
-SMTPserver = 'mail.domain.com'
-sender = 'email@domain.com'
+"""
+Mailing script
+"""
+# import sys
+# import os
+# import re
+import csv
+import time
+
+from smtplib import SMTP_SSL as SMTP
+# this invokes the secure SMTP protocol (port 465, uses SSL)
+
+# from smtplib import SMTP
+# # use this for standard SMTP protocol (port 25, no encryption)
+
+# old version
+# from email.MIMEText import MIMEText
+from email.mime.text import MIMEText
+
+SMTPserver = 'mail.domain.com'  # Ignore PyLintBear (C0103)
+sender = 'email@domain.com'  # Ignore PyLintBear (C0103)
 
 USERNAME = "cpanel_login"
 PASSWORD = "cpanel_password"
 
 # typical values for text_subtype are plain, html, xml
 
-subject="Invite for Startup Conclave 2.0 : EDC BVUCOEP"
+subject = "Invite for Startup Conclave 2.0 : EDC BVUCOEP"
 
-import sys
-import os
-import re
-import csv
-import time
-
-from smtplib import SMTP_SSL as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
-# from smtplib import SMTP                  # use this for standard SMTP protocol   (port 25, no encryption)
-
-# old version
-# from email.MIMEText import MIMEText
-from email.mime.text import MIMEText
-
+conn = SMTP(SMTPserver)
+conn.set_debuglevel(False)
+conn.login(USERNAME, PASSWORD)
 with open('db.csv') as data:
     row = csv.DictReader(data)
     for line in row:
-        conn = SMTP(SMTPserver)
-        conn.set_debuglevel(False)
-        conn.login(USERNAME, PASSWORD)
         name = line['fullname']
         add = line['email']
-        text_subtype = 'html'        
-        content="""\
+        text_subtype = 'html'
+        content = """\
 
-            <center><img src="https://www.edcbvucoep.com/masthead.jpg" width="631" height="273"></center>
+            <center><img src="http://www.edcbvucoep.com/masthead.jpg" width="631" height="273"></center>
             <br><br>
             Dear """+name+""",<br><br>
-            We, the <a href="https://www.edcbvucoep.com/">Entrepreneurship Development Cell of Bharati Vidyapeeth College of Engineering, Pune</a> is glad to invite you to it’s one of the main event, Startup Conclave 2.0 on  5th and 6th of October 2018.<br><br>
+            We, the <a href="http://www.edcbvucoep.com/">Entrepreneurship Development Cell of Bharati Vidyapeeth College of Engineering, Pune</a> is glad to invite you to it’s one of the main event, Startup Conclave 2.0 on  5th and 6th of October 2018.<br><br>
             The event will guide the participants through the journey of entrepreneurship, the importance of team-building and also host workshops on Technical and Business tracks, exciting competitions to gain a deeper understanding of these kinds of stuff.<br><br>
             On <u><strong>Day 1</strong></u> we have: <br>
             <ol>
@@ -54,8 +60,8 @@ with open('db.csv') as data:
             <bold>Venue:</bold> Bharati Vidyapeeth College of Engineering.<br>
             <bold>Date:</bold> 5th and 6th of October 2018.
             <br><br>
-            The event details are hereby attached. <a href="https://www.edcbvucoep.com/conclave/Proposal.pdf">Details</a><br>
-            We would be glad if you will be a part of the event. Click here to <a href="https://conclave.edcbvucoep.com/">Register</a><br><br>
+            The event details are hereby attached. <a href="http://www.edcbvucoep.com/conclave/Proposal.pdf">Details</a><br>
+            We would be glad if you will be a part of the event. Click here to <a href="http://conclave.edcbvucoep.com/">Register</a><br><br>
             Regards<br>
             Team EDC<br>
             BVUCOEP<br><br>
@@ -77,5 +83,3 @@ with open('db.csv') as data:
             exit()
         finally:
             conn.quit()
-
-conn.quit()
