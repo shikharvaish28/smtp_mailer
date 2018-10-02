@@ -1,47 +1,40 @@
-"""
-Mailing script
-"""
-# import sys
-# import os
-# import re
+SMTPserver = 'mail.domain.com'
+sender = 'name@domain.com'
+
+USERNAME = "cpanel"
+PASSWORD = "cpanel password"
+
+# typical values for text_subtype are plain, html, xml
+
+subject="Invite for Startup Conclave 2.0 : EDC BVUCOEP"
+
+import sys
+import os
+import re
 import csv
 import time
 
-from smtplib import SMTP_SSL as SMTP
-# this invokes the secure SMTP protocol (port 465, uses SSL)
-
-# from smtplib import SMTP
-# # use this for standard SMTP protocol (port 25, no encryption)
+from smtplib import SMTP_SSL as SMTP       # this invokes the secure SMTP protocol (port 465, uses SSL)
+# from smtplib import SMTP                  # use this for standard SMTP protocol   (port 25, no encryption)
 
 # old version
 # from email.MIMEText import MIMEText
 from email.mime.text import MIMEText
-
-SMTPserver = 'mail.domain.com'  # Ignore PyLintBear (C0103)
-sender = 'email@domain.com'  # Ignore PyLintBear (C0103)
-
-USERNAME = "cpanel_login"
-PASSWORD = "cpanel_password"
-
-# typical values for text_subtype are plain, html, xml
-
-subject = "Invite for Startup Conclave 2.0 : EDC BVUCOEP"
-
 conn = SMTP(SMTPserver)
 conn.set_debuglevel(False)
 conn.login(USERNAME, PASSWORD)
-with open('db.csv') as data:
+with open('smc.csv') as data:
     row = csv.DictReader(data)
     for line in row:
-        name = line['fullname']
+        # name = line['fullname']
         add = line['email']
-        text_subtype = 'html'
-        content = """\
+        text_subtype = 'html'        
+        content="""\
 
-            <center><img src="http://www.edcbvucoep.com/masthead.jpg" width="631" height="273"></center>
+            <center><img src="https://www.edcbvucoep.com/masthead.jpg" width="631" height="273"></center>
             <br><br>
-            Dear """+name+""",<br><br>
-            We, the <a href="http://www.edcbvucoep.com/">Entrepreneurship Development Cell of Bharati Vidyapeeth College of Engineering, Pune</a> is glad to invite you to it’s one of the main event, Startup Conclave 2.0 on  5th and 6th of October 2018.<br><br>
+            Dear Sir/Madam,<br><br>
+            We, the <a href="https://www.edcbvucoep.com/">Entrepreneurship Development Cell of Bharati Vidyapeeth College of Engineering, Pune</a> is glad to invite you to it’s one of the main event, Startup Conclave 2.0 on  5th and 6th of October 2018.<br><br>
             The event will guide the participants through the journey of entrepreneurship, the importance of team-building and also host workshops on Technical and Business tracks, exciting competitions to gain a deeper understanding of these kinds of stuff.<br><br>
             On <u><strong>Day 1</strong></u> we have: <br>
             <ol>
@@ -57,11 +50,11 @@ with open('db.csv') as data:
             <strong><u>On Day 2 :</u></strong><br><br>
             The event would host the Code Relay, a very interesting competition for coders and Estrategia, a competition which would be teaching students about building strategies in the corporate ecosystem.<br><br>
             In this event, we not only have people coming from startup culture but also from technological and business background as well. This brings a lot of opportunities to build in networks and learn about around the world. Also, it has students and experts coming from different fields which further would help you know more about the latest requirements and interests of them.<br><br>
-            <bold>Venue:</bold> Bharati Vidyapeeth College of Engineering.<br>
-            <bold>Date:</bold> 5th and 6th of October 2018.
+            <strong>Venue:</strong> Bharati Vidyapeeth College of Engineering.<br>
+            <strong>Date:</strong> 5th and 6th of October 2018.
             <br><br>
-            The event details are hereby attached. <a href="http://www.edcbvucoep.com/conclave/Proposal.pdf">Details</a><br>
-            We would be glad if you will be a part of the event. Click here to <a href="http://conclave.edcbvucoep.com/">Register</a><br><br>
+            The event details are hereby attached. <a href="https://www.edcbvucoep.com/conclave/Proposal.pdf">Details</a><br>
+            We would be glad if you will be a part of the event. Click here to <a href="https://conclave.edcbvucoep.com/">Register</a><br><br>
             Regards<br>
             Team EDC<br>
             BVUCOEP<br><br>
@@ -76,10 +69,9 @@ with open('db.csv') as data:
             msg['From'] = sender # some SMTP servers will do this automatically, not all
             # try:
             conn.sendmail(sender, add, msg.as_string())
-            print('Mail sent to '+name+'')
+            print('Mail sent to '+add)
         except:
             time.sleep(2)
             print('Terminating SMTP connection!')
             exit()
-        finally:
-            conn.quit()
+conn.quit()
