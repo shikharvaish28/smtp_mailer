@@ -38,7 +38,11 @@ Send personalised mails from your domain-email to n-number of people from your t
 
 * [smtp_mailer][1] only supports its using terminal. Attempts are to make a GUI based app where you can upload the ```csv``` file and an interface to view the mails being triggered.
 
-* Also, investigate the reason of latency and optimise it.
+* A GUI method to input ```ID``` and ```password```
+
+* Remove the dependency on cpanel credentials.
+
+* Add the reciever end using POP3 client.
 
 ## Contact  
 
